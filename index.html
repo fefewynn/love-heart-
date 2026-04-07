@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Love Heart</title>
+
+<style>
+body{
+margin:0;
+background:black;
+overflow:hidden;
+font-family:Arial;
+}
+
+canvas{
+display:block;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="c"></canvas>
+
+<script>
+
+const canvas=document.getElementById("c");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+
+resize();
+window.addEventListener("resize",resize);
+
+
+/* NOVA FUNÇÃO DO CORAÇÃO (formato igual ao do vídeo) */
+
+function heart(t){
+
+return{
+
+x: 16*Math.pow(Math.sin(t),3),
+
+y: -(13*Math.cos(t)
+ -5*Math.cos(2*t)
+ -2*Math.cos(3*t)
+ -Math.cos(4*t))
+
+}
+
+}
+
+
+let particles=[];
+
+for(let i=0;i<300;i++){
+
+particles.push({
+
+t:Math.random()*Math.PI*2,
+
+speed:0.01+Math.random()*0.01
+
+})
+
+}
+
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#ff8ac6";
+ctx.font="18px Arial";
+ctx.shadowBlur=12;
+ctx.shadowColor="#ff8ac6";
+
+
+particles.forEach(p=>{
+
+p.t+=p.speed;
+
+let pos=heart(p.t);
+
+let scale=18;
+
+let x=canvas.width/2 + pos.x*scale;
+let y=canvas.height/2 + pos.y*scale;
+
+/* desenha o texto sem girar */
+
+ctx.fillText("I love you",x,y);
+
+})
